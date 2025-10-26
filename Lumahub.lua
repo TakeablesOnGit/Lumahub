@@ -12,7 +12,8 @@ local UI_Framework =
 
 local Lumahub = UI_Framework:CreateWindow({
 	Title = HubName,
-	Author = "Made by " .. HubAuthor,
+	Author = ("Made by " .. HubAuthor),
+	Icon = "https://tr.rbxcdn.com/180DAY-ab2f407eb5754901b4852256c153bbc3/512/512/Image/Webp/noFilter",
 	Folder = HubName,
 })
 
@@ -20,7 +21,6 @@ local Lumahub = UI_Framework:CreateWindow({
 
 local LumaFarmingTab = Lumahub:Tab({
 	Title = "Farming",
-	Icon = "https://tr.rbxcdn.com/180DAY-ab2f407eb5754901b4852256c153bbc3/512/512/Image/Webp/noFilter",
 	Locked = false,
 })
 
