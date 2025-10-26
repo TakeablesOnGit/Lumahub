@@ -17,7 +17,7 @@ local HubAuthor = "Takeables"
 
 -- Notification Settings
 local NotificationDuration = 5
-local NotificationIcon = "bird"
+local NotificationIcon = "bell-ring"
 
 --------------------------------------------------------------------------------------------
 --[[
@@ -118,4 +118,4 @@ FarmingToggle:Set(false)
 
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
-Notify(HubName, "Successfully Loaded!", NotificationDuration, "bird")
+Notify(HubName, "Successfully Loaded!", NotificationDuration, "badge-check")
