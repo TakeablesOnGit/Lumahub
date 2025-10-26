@@ -1,28 +1,48 @@
---// Settings \\--
+--[[
+ $$$$$$\  $$$$$$$$\ $$$$$$$$\ $$$$$$$$\ $$$$$$\ $$\   $$\  $$$$$$\   $$$$$$\  
+$$  __$$\ $$  _____|\__$$  __|\__$$  __|\_$$  _|$$$\  $$ |$$  __$$\ $$  __$$\ 
+$$ /  \__|$$ |         $$ |      $$ |     $$ |  $$$$\ $$ |$$ /  \__|$$ /  \__|
+\$$$$$$\  $$$$$\       $$ |      $$ |     $$ |  $$ $$\$$ |$$ |$$$$\ \$$$$$$\  
+ \____$$\ $$  __|      $$ |      $$ |     $$ |  $$ \$$$$ |$$ |\_$$ | \____$$\ 
+$$\   $$ |$$ |         $$ |      $$ |     $$ |  $$ |\$$$ |$$ |  $$ |$$\   $$ |
+\$$$$$$  |$$$$$$$$\    $$ |      $$ |   $$$$$$\ $$ | \$$ |\$$$$$$  |\$$$$$$  |
+ \______/ \________|   \__|      \__|   \______|\__|  \__| \______/  \______/                                                                                                                                                                                                                                    
+]]
+--
 
---|| Hub Settings ||--
+-- Hub Settings
 local HubName = "Lumahub"
 local HubAuthor = "Takeables"
 
---|| Notification Settings ||--
+-- Notification Settings
 local NotificationDuration = 5
-local NotificationIcon = "geist:verified-check-fill"
+local NotificationIcon = "geist:verified-check"
 
---// Frameworks \\--
+--[[
+$$\    $$\  $$$$$$\  $$$$$$$\  $$$$$$\  $$$$$$\  $$$$$$$\  $$\       $$$$$$$$\  $$$$$$\  
+$$ |   $$ |$$  __$$\ $$  __$$\ \_$$  _|$$  __$$\ $$  __$$\ $$ |      $$  _____|$$  __$$\ 
+$$ |   $$ |$$ /  $$ |$$ |  $$ |  $$ |  $$ /  $$ |$$ |  $$ |$$ |      $$ |      $$ /  \__|
+\$$\  $$  |$$$$$$$$ |$$$$$$$  |  $$ |  $$$$$$$$ |$$$$$$$\ |$$ |      $$$$$\    \$$$$$$\  
+ \$$\$$  / $$  __$$ |$$  __$$<   $$ |  $$  __$$ |$$  __$$\ $$ |      $$  __|    \____$$\ 
+  \$$$  /  $$ |  $$ |$$ |  $$ |  $$ |  $$ |  $$ |$$ |  $$ |$$ |      $$ |      $$\   $$ |
+   \$  /   $$ |  $$ |$$ |  $$ |$$$$$$\ $$ |  $$ |$$$$$$$  |$$$$$$$$\ $$$$$$$$\ \$$$$$$  |
+    \_/    \__|  \__|\__|  \__|\______|\__|  \__|\_______/ \________|\________| \______/                                                                                                                                                                                                                                                                           
+]]
 
 local UI_Framework =
 	loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
---// UI's <<--
-
-local Lumahub = UI_Framework:CreateWindow({
-	Title = HubName,
-	Author = ("Made by " .. HubAuthor),
-	Icon = "geist:sparkles",
-	Folder = HubName,
-})
-
---// Functions <<--
+--[[
+$$$$$$$$\ $$\   $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ $$$$$$\  $$$$$$\  $$\   $$\  $$$$$$\  
+$$  _____|$$ |  $$ |$$$\  $$ |$$  __$$\\__$$  __|\_$$  _|$$  __$$\ $$$\  $$ |$$  __$$\ 
+$$ |      $$ |  $$ |$$$$\ $$ |$$ /  \__|  $$ |     $$ |  $$ /  $$ |$$$$\ $$ |$$ /  \__|
+$$$$$\    $$ |  $$ |$$ $$\$$ |$$ |        $$ |     $$ |  $$ |  $$ |$$ $$\$$ |\$$$$$$\  
+$$  __|   $$ |  $$ |$$ \$$$$ |$$ |        $$ |     $$ |  $$ |  $$ |$$ \$$$$ | \____$$\ 
+$$ |      $$ |  $$ |$$ |\$$$ |$$ |  $$\   $$ |     $$ |  $$ |  $$ |$$ |\$$$ |$$\   $$ |
+$$ |      \$$$$$$  |$$ | \$$ |\$$$$$$  |  $$ |   $$$$$$\  $$$$$$  |$$ | \$$ |\$$$$$$  |
+\__|       \______/ \__|  \__| \______/   \__|   \______| \______/ \__|  \__| \______/                                                                                                                                                                                                                                                                                                                                             
+]]
+--
 
 function Notify(Title, Content, Duration, Icon)
 	if Title == nil then
@@ -49,13 +69,34 @@ function Notify(Title, Content, Duration, Icon)
 	})
 end
 
----------------------------[[ FARMING ]]---------------------------
+--[[
+$$\      $$\  $$$$$$\  $$$$$$\ $$\   $$\ 
+$$$\    $$$ |$$  __$$\ \_$$  _|$$$\  $$ |
+$$$$\  $$$$ |$$ /  $$ |  $$ |  $$$$\ $$ |
+$$\$$\$$ $$ |$$$$$$$$ |  $$ |  $$ $$\$$ |
+$$ \$$$  $$ |$$  __$$ |  $$ |  $$ \$$$$ |
+$$ |\$  /$$ |$$ |  $$ |  $$ |  $$ |\$$$ |
+$$ | \_/ $$ |$$ |  $$ |$$$$$$\ $$ | \$$ |
+\__|     \__|\__|  \__|\______|\__|  \__|                                                                                                                          
+]]
+--
 
+-- Lumahub UI
+local Lumahub = UI_Framework:CreateWindow({
+	Title = HubName,
+	Author = ("Made by " .. HubAuthor),
+	Icon = "geist:sparkles",
+	Folder = HubName,
+})
+
+---------------------------[[ FARMING ]]---------------------------
+-- Farming Section
 local FarmingSection = Lumahub:Tab({
 	Title = "Farming",
 	Locked = false,
 })
 
+-- Farmming Toggle
 local FarmingToggle = FarmingSection:Toggle({
 	Title = "Farm Candy",
 	Desc = "collect candy currency automatically.",
@@ -66,8 +107,6 @@ local FarmingToggle = FarmingSection:Toggle({
 		print("Farming Candy Activated" .. tostring(state))
 	end,
 })
-
---// Main \\--
 
 FarmingSection:Select()
 FarmingToggle:Set(false)
