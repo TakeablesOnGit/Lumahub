@@ -69,7 +69,7 @@ function Notify(Title, Content, Duration, Icon)
 		Title = Title,
 		Content = Content,
 		Duration = Duration,
-		Icon = "geist:verified-check",
+		Icon = "lucide:bird",
 	})
 end
 
@@ -118,4 +118,4 @@ FarmingToggle:Set(false)
 
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
-Notify(HubName, "Successfully Loaded!", NotificationDuration, NotificationIcon)
+Notify(HubName, "Successfully Loaded!", NotificationDuration, "lucide:bird")
