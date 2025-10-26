@@ -14,19 +14,6 @@ local Lumahub = UI_Framework:CreateWindow({
 	Title = HubName,
 	Author = "Made by " .. HubAuthor,
 	Folder = HubName,
-
-	KeySystem = {
-		Key = { "1234", "5678" },
-		Note = "Example Key System.",
-
-		Thumbnail = {
-			Image = "rbxassetid://",
-			Title = "Thumbnail",
-		},
-
-		URL = "YOUR LINK TO GET KEY (Discord, Linkvertise, Pastebin, etc.)",
-		SaveKey = true,
-	},
 })
 
 ---------------------------[[ FARMING ]]---------------------------
