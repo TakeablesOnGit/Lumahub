@@ -32,8 +32,15 @@ $$ |   $$ |$$ /  $$ |$$ |  $$ |  $$ |  $$ /  $$ |$$ |  $$ |$$ |      $$ |      $
 ]]
 --------------------------------------------------------------------------------------------
 
+-- Frameworks
 local UI_Framework =
 	loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+local Config_Framework
+
+-- Services
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
 
 --------------------------------------------------------------------------------------------
 --[[
@@ -94,6 +101,9 @@ local Lumahub = UI_Framework:CreateWindow({
 	Folder = HubName,
 })
 
+Config_Framework = Lumahub.ConfigManager
+local Config = Config_Framework:CreateConfig(HubName)
+
 ---------------------------[[ FARMING ]]---------------------------
 -- Farming Section
 local FarmingSection = Lumahub:Tab({
@@ -112,6 +122,8 @@ local FarmingToggle = FarmingSection:Toggle({
 		print("Farming Candy Activated" .. tostring(state))
 	end,
 })
+
+Config:Register("CandyFarm", FarmingToggle)
 
 FarmingSection:Select()
 FarmingToggle:Set(false)
