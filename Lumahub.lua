@@ -37,4 +37,4 @@ local LumaFarmingToggle = LumaFarmingTab:Toggle({
 --// Main \\--
 
 LumaFarmingTab:Select()
-LumaFarmingToggle:Set(true)
+LumaFarmingToggle:Set(false)
