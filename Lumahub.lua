@@ -69,7 +69,7 @@ function Notify(Title, Content, Duration, Icon)
 		Title = Title,
 		Content = Content,
 		Duration = Duration,
-		Icon = Icon,
+		Icon = "geist:verified-check",
 	})
 end
 
