@@ -17,7 +17,7 @@ local HubAuthor = "Takeables"
 
 -- Notification Settings
 local NotificationDuration = 5
-local NotificationIcon = "geist:verified-check"
+local NotificationIcon = "bird"
 
 --------------------------------------------------------------------------------------------
 --[[
@@ -69,7 +69,7 @@ function Notify(Title, Content, Duration, Icon)
 		Title = Title,
 		Content = Content,
 		Duration = Duration,
-		Icon = "lucide:bird",
+		Icon = Icon,
 	})
 end
 
@@ -118,4 +118,4 @@ FarmingToggle:Set(false)
 
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
-Notify(HubName, "Successfully Loaded!", NotificationDuration, "lucide:bird")
+Notify(HubName, "Successfully Loaded!", NotificationDuration, "bird")
