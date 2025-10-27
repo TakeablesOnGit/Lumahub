@@ -19,6 +19,9 @@ local HubAuthor = "Takeables"
 local NotificationDuration = 5
 local NotificationIcon = "bell-ring"
 
+-- Farming Settings
+local NearbyRadius = 50
+
 --------------------------------------------------------------------------------------------
 --[[
 $$\    $$\  $$$$$$\  $$$$$$$\  $$$$$$\  $$$$$$\  $$$$$$$\  $$\       $$$$$$$$\  $$$$$$\  
@@ -42,6 +45,14 @@ local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 
+-- Private Values
+local AutoFarmEnabled
+local IsAutoFarming = false
+
+-- Instance References
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+
 --------------------------------------------------------------------------------------------
 --[[
 $$$$$$$$\ $$\   $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ $$$$$$\  $$$$$$\  $$\   $$\  $$$$$$\  
@@ -55,7 +66,7 @@ $$ |      \$$$$$$  |$$ | \$$ |\$$$$$$  |  $$ |   $$$$$$\  $$$$$$  |$$ | \$$ |\$$
 ]]
 --------------------------------------------------------------------------------------------
 
-function Notify(Title, Content, Duration, Icon)
+local function Notify(Title, Content, Duration, Icon)
 	if Title == nil then
 		Title = "Notification"
 	end
@@ -78,6 +89,87 @@ function Notify(Title, Content, Duration, Icon)
 		Duration = Duration,
 		Icon = Icon,
 	})
+end
+
+local function FindCoinContainer()
+	for _, Object in pairs(game.Workspace:GetChildren()) do
+		local CoinContainer = Object:FindFirstChild("CoinContainer")
+
+		if CoinContainer then
+			return CoinContainer
+		end
+	end
+
+	return nil
+end
+
+local function FindNearestCoin(Radius)
+	local CoinContainer = FindCoinContainer()
+
+	if not CoinContainer then
+		print("CoinContainer not found")
+		return nil
+	end
+
+	local HumanoidRootPart = character:WaitForChild("HumanoidRootPart")
+	local NearestCoin = nil
+	local NearestDistance = Radius
+
+	for _, Coin in pairs(CoinContainer:GetChildren()) do
+		local Distance = (Coin.Position - HumanoidRootPart.Position).Magnitude
+
+		if Distance < NearestDistance then
+			NearestCoin = Coin
+			NearestDistance = Distance
+		end
+	end
+
+	return NearestCoin
+end
+
+local function TeleportToCoin(Coin)
+	local HumanoidRootPart = character:WaitForChild("HumanoidRootPart")
+	local TweenConfig = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	local Tween = TweenService:Create(HumanoidRootPart, TweenConfig, { CFrame = Coin.CFrame })
+
+	Tween:Play()
+	return Tween
+end
+
+local function TeleportToNearbyOrRandomCoin()
+	if not AutoFarmEnabled or IsAutoFarming then
+		return
+	end
+
+	local NearbyCoin = FindNearestCoin(NearbyRadius)
+
+	if NearbyCoin then
+		IsAutoFarming = true
+		local Tween = TeleportToCoin(NearbyCoin)
+		Tween.Completed:Wait()
+		IsAutoFarming = false
+	else
+		local CoinContainer = FindCoinContainer()
+
+		if not CoinContainer then
+			print("CoinContainer not found")
+			return
+		end
+
+		local Coins = CoinContainer:GetChildren()
+
+		if #Coins == 0 then
+			print("No coins found")
+			return
+		end
+
+		local RandomCoin = Coins[math.random(1, #Coins)]
+		IsAutoFarming = true
+
+		local Tween = TeleportToCoin(RandomCoin)
+		Tween.Completed:Wait()
+		IsAutoFarming = false
+	end
 end
 
 --------------------------------------------------------------------------------------------
@@ -111,7 +203,7 @@ local FarmingSection = Lumahub:Tab({
 	Locked = false,
 })
 
--- Farmming Toggle
+-- Farming Toggle
 local FarmingToggle = FarmingSection:Toggle({
 	Title = "Candy Auto-Farm",
 	Desc = "collect candy currency automatically.",
@@ -120,14 +212,19 @@ local FarmingToggle = FarmingSection:Toggle({
 
 	Callback = function(state)
 		print("Farming Candy Activated" .. tostring(state))
+		AutoFarmEnabled = state
 		Config:Save()
 	end,
 })
 
 Config:Register("CandyFarm", FarmingToggle)
-
 FarmingSection:Select()
-FarmingToggle:Set(false)
+
+RunService.Heartbeat:Connect(function()
+	if AutoFarmEnabled and Character and Character:FindFirstChild("HumanoidRootPart") then
+		TeleportToNearbyOrRandomCoin()
+	end
+end)
 
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
