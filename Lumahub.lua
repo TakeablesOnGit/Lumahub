@@ -22,7 +22,7 @@ local NotificationIcon = "bell-ring"
 -- Farming Settings
 local NearbyRadius = 50
 local DefaultTweenSpeed = 16
-local MaxSafeSpeed = 35
+local MaxSafeSpeed = 60
 
 --------------------------------------------------------------------------------------------
 --[[
