@@ -48,6 +48,8 @@ local RunService = game:GetService("RunService")
 -- Private Values
 local AutoFarmEnabled = false
 local IsAutoFarming = false
+local LastTweenTime = 0
+local MinInterval = 0.2
 
 -- Instance References
 local Player = Players.LocalPlayer
@@ -244,9 +246,18 @@ FarmingToggle:SetDesc("collect candy currency automatically.")
 
 FarmingSection:Select()
 
-HeartbeatConnection = RunService.Heartbeat:Connect(function()
-	if AutoFarmEnabled and Character and Character:FindFirstChild("HumanoidRootPart") then
-		TeleportToNearbyOrRandomCoin()
+HeartbeatConnection = RunService.Heartbeat:Connect(function(dt)
+	if
+		AutoFarmEnabled
+		and Character
+		and Character:FindFirstChild("HumanoidRootPart")
+		and tick() - LastTweenTime > MinInterval
+	then
+		LastTweenTime = tick()
+
+		coroutine.wrap(function()
+			TeleportToNearbyOrRandomCoin()
+		end)()
 	end
 end)
 
