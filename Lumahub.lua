@@ -46,7 +46,7 @@ local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 
 -- Private Values
-local AutoFarmEnabled
+local AutoFarmEnabled = false
 local IsAutoFarming = false
 
 -- Instance References
@@ -212,6 +212,11 @@ local FarmingToggle = FarmingSection:Toggle({
 	Callback = function(state)
 		print("Farming Candy Activated" .. tostring(state))
 		AutoFarmEnabled = state
+
+		if state == false then
+			IsAutoFarming = false
+		end
+
 		Config:Save()
 	end,
 })
