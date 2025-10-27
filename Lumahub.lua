@@ -21,8 +21,7 @@ local NotificationIcon = "bell-ring"
 
 -- Farming Settings
 local NearbyRadius = 50
-local DefaultTweenSpeed = 16
-local MaxSafeSpeed = 60
+local MaxSafeSpeed = 15
 
 --------------------------------------------------------------------------------------------
 --[[
@@ -104,8 +103,9 @@ local function FindCoinContainer()
 	return nil
 end
 
-local function FindNearestCoin(Radius)
+local function FindNearestCoin(Radius, OptionalSpeed)
 	local CoinContainer = FindCoinContainer()
+	local Speed = OptionalSpeed or MaxSafeSpeed
 
 	if not CoinContainer then
 		return nil
@@ -131,6 +131,8 @@ local function FindNearestCoin(Radius)
 end
 
 local function TeleportToCoin(Coin, Speed)
+	print("Tweening To Coin In Exactly " .. tostring(Speed) .. " Seconds")
+
 	local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 	local TweenConfig = TweenInfo.new(Speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 	local Tween = TweenService:Create(HumanoidRootPart, TweenConfig, { CFrame = Coin.CFrame })
