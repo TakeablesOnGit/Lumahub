@@ -123,7 +123,7 @@ local function FindNearestCoin(Radius, OptionalSpeed)
 
 	for _, Coin in pairs(CoinContainer:GetChildren()) do
 		local Distance = (Coin.Position - HumanoidRootPart.Position).Magnitude
-		TweenTime = Distance / MaxSafeSpeed
+		TweenTime = Distance / Speed
 		TweenTime = math.clamp(TweenTime, 0.1, 3)
 
 		if Distance < NearestDistance and Coin:getAttribute("Collected") == false then
