@@ -66,6 +66,11 @@ $$ |      \$$$$$$  |$$ | \$$ |\$$$$$$  |  $$ |   $$$$$$\  $$$$$$  |$$ | \$$ |\$$
 ]]
 --------------------------------------------------------------------------------------------
 
+local function Destroy()
+	AutoFarmEnabled = false
+	IsAutoFarming = false
+end
+
 local function Notify(Title, Content, Duration, Icon)
 	if Title == nil then
 		Title = "Notification"
@@ -240,3 +245,7 @@ end)
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
 Notify(HubName, "Successfully Loaded!", NotificationDuration, "badge-check")
+
+---------------------------[[ CLEAN UP ]]---------------------------
+
+Lumahub:OnDestroy(Destroy)
