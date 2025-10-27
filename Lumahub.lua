@@ -120,6 +120,7 @@ local FarmingToggle = FarmingSection:Toggle({
 
 	Callback = function(state)
 		print("Farming Candy Activated" .. tostring(state))
+		Config:Save()
 	end,
 })
 
@@ -130,4 +131,5 @@ FarmingToggle:Set(false)
 
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
+Config:Load()
 Notify(HubName, "Successfully Loaded!", NotificationDuration, "badge-check")
