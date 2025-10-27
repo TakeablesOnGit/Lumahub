@@ -117,7 +117,7 @@ local function FindNearestCoin(Radius)
 	for _, Coin in pairs(CoinContainer:GetChildren()) do
 		local Distance = (Coin.Position - HumanoidRootPart.Position).Magnitude
 
-		if Distance < NearestDistance then
+		if Distance < NearestDistance and Coin:getAttribute("Collected") == false then
 			NearestCoin = Coin
 			NearestDistance = Distance
 		end
