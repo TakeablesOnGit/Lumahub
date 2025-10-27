@@ -121,6 +121,7 @@ end
 local function FindNearestCoin(Radius, OptionalSpeed)
 	local CoinContainer = FindCoinContainer()
 	local Speed = OptionalSpeed or MaxSafeSpeed
+	local TweenTime
 
 	if not CoinContainer then
 		return nil
@@ -128,7 +129,6 @@ local function FindNearestCoin(Radius, OptionalSpeed)
 
 	local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 	local NearestCoin = nil
-	local TweenTime = 35
 	local NearestDistance = Radius
 
 	for _, Coin in pairs(CoinContainer:GetChildren()) do
@@ -185,6 +185,11 @@ local function TeleportToNearbyOrRandomCoin()
 
 		local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 		local RandomCoin = Coins[math.random(1, #Coins)]
+
+		if RandomCoin:getAttribute("Collected") == true then
+			return
+		end
+
 		local Distance = (RandomCoin.Position - HumanoidRootPart.Position).Magnitude
 
 		IsAutoFarming = true
