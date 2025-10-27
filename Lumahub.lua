@@ -38,7 +38,6 @@ $$ |   $$ |$$ /  $$ |$$ |  $$ |  $$ |  $$ /  $$ |$$ |  $$ |$$ |      $$ |      $
 -- Frameworks
 local UI_Framework =
 	loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-local Config_Framework
 
 -- Services
 local Players = game:GetService("Players")
@@ -192,9 +191,6 @@ local Lumahub = UI_Framework:CreateWindow({
 	Folder = HubName,
 })
 
-Config_Framework = Lumahub.ConfigManager
-local Config = Config_Framework:CreateConfig(HubName)
-
 ---------------------------[[ FARMING ]]---------------------------
 -- Farming Section
 local FarmingSection = Lumahub:Tab({
@@ -216,12 +212,9 @@ local FarmingToggle = FarmingSection:Toggle({
 		if state == false then
 			IsAutoFarming = false
 		end
-
-		Config:Save()
 	end,
 })
 
-Config:Register("CandyFarm", FarmingToggle)
 FarmingSection:Select()
 
 RunService.Heartbeat:Connect(function()
@@ -232,5 +225,4 @@ end)
 
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
-Config:Load()
 Notify(HubName, "Successfully Loaded!", NotificationDuration, "badge-check")
