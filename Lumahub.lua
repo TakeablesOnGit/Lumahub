@@ -21,6 +21,8 @@ local NotificationIcon = "bell-ring"
 
 -- Farming Settings
 local NearbyRadius = 50
+local DefaultTweenSpeed = 16
+local MaxSafeSpeed = 35
 
 --------------------------------------------------------------------------------------------
 --[[
@@ -111,10 +113,13 @@ local function FindNearestCoin(Radius)
 
 	local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 	local NearestCoin = nil
+	local TweenTime = 35
 	local NearestDistance = Radius
 
 	for _, Coin in pairs(CoinContainer:GetChildren()) do
 		local Distance = (Coin.Position - HumanoidRootPart.Position).Magnitude
+		TweenTime = Distance / MaxSafeSpeed
+		TweenTime = math.clamp(TweenTime, 0.1, 3)
 
 		if Distance < NearestDistance and Coin:getAttribute("Collected") == false then
 			NearestCoin = Coin
@@ -122,12 +127,12 @@ local function FindNearestCoin(Radius)
 		end
 	end
 
-	return NearestCoin
+	return NearestCoin, TweenTime
 end
 
-local function TeleportToCoin(Coin)
+local function TeleportToCoin(Coin, Speed)
 	local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
-	local TweenConfig = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	local TweenConfig = TweenInfo.new(Speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 	local Tween = TweenService:Create(HumanoidRootPart, TweenConfig, { CFrame = Coin.CFrame })
 
 	Tween:Play()
@@ -139,11 +144,11 @@ local function TeleportToNearbyOrRandomCoin()
 		return
 	end
 
-	local NearbyCoin = FindNearestCoin(NearbyRadius)
+	local NearbyCoin, TweenTime = FindNearestCoin(NearbyRadius)
 
 	if NearbyCoin then
 		IsAutoFarming = true
-		local Tween = TeleportToCoin(NearbyCoin)
+		local Tween = TeleportToCoin(NearbyCoin, TweenTime)
 		Tween.Completed:Wait()
 		IsAutoFarming = false
 	else
@@ -161,10 +166,16 @@ local function TeleportToNearbyOrRandomCoin()
 			return
 		end
 
+		local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 		local RandomCoin = Coins[math.random(1, #Coins)]
+		local Distance = (RandomCoin.Position - HumanoidRootPart.Position).Magnitude
+
 		IsAutoFarming = true
 
-		local Tween = TeleportToCoin(RandomCoin)
+		TweenTime = Distance / MaxSafeSpeed
+		TweenTime = math.clamp(TweenTime, 0.1, 3)
+
+		local Tween = TeleportToCoin(RandomCoin, TweenTime)
 		Tween.Completed:Wait()
 		IsAutoFarming = false
 	end
@@ -200,8 +211,6 @@ local FarmingSection = Lumahub:Tab({
 
 -- Farming Toggle
 local FarmingToggle = FarmingSection:Toggle({
-	Title = "Candy Auto-Farm",
-	Desc = "collect candy currency automatically.",
 	Type = "Checkbox",
 	Value = false,
 
@@ -214,6 +223,9 @@ local FarmingToggle = FarmingSection:Toggle({
 		end
 	end,
 })
+
+FarmingToggle:SetTitle("Candy Auto-Farm")
+FarmingToggle:SetDesc("collect candy currency automatically.")
 
 FarmingSection:Select()
 
