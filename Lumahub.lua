@@ -111,7 +111,7 @@ local function FindNearestCoin(Radius)
 		return nil
 	end
 
-	local HumanoidRootPart = character:WaitForChild("HumanoidRootPart")
+	local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 	local NearestCoin = nil
 	local NearestDistance = Radius
 
@@ -128,8 +128,8 @@ local function FindNearestCoin(Radius)
 end
 
 local function TeleportToCoin(Coin)
-	local HumanoidRootPart = character:WaitForChild("HumanoidRootPart")
-	local TweenConfig = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+	local TweenConfig = TweenService.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 	local Tween = TweenService:Create(HumanoidRootPart, TweenConfig, { CFrame = Coin.CFrame })
 
 	Tween:Play()
@@ -152,14 +152,14 @@ local function TeleportToNearbyOrRandomCoin()
 		local CoinContainer = FindCoinContainer()
 
 		if not CoinContainer then
-			print("CoinContainer not found")
+			print("📝 CoinContainer Not Found")
 			return
 		end
 
 		local Coins = CoinContainer:GetChildren()
 
 		if #Coins == 0 then
-			print("No coins found")
+			print("📝 No Coins Found")
 			return
 		end
 
