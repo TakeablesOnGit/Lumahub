@@ -120,26 +120,29 @@ end
 
 local function FindNearestCoin(Radius, OptionalSpeed)
 	local CoinContainer = FindCoinContainer()
-	local Speed = OptionalSpeed or MaxSafeSpeed
 
 	if not CoinContainer then
 		return nil
 	end
 
+	local Speed = OptionalSpeed or MaxSafeSpeed
 	local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
-	local NearestCoin
+	local NearestCoin = nil
 	local TweenTime
 
 	for _, Coin in pairs(CoinContainer:GetChildren()) do
-		if Coin:getAttribute("Collected") == true then
+		if NearestCoin ~= nil then
+			return NearestCoin, TweenTime
+		end
+
+		if Coin:GetAttribute("Collected") == true then
 			Coin:Destroy()
 		else
 			local Distance = (Coin.Position - HumanoidRootPart.Position).Magnitude
 
-			TweenTime = Distance / Speed
-			TweenTime = math.clamp(TweenTime, 0.1, 3)
+			TweenTime = math.clamp(Distance / Speed, 0.1, 3)
 
-			if Distance < Radius and Coin:getAttribute("Collected") == false then
+			if Distance < Radius then
 				NearestCoin = Coin
 			end
 		end
