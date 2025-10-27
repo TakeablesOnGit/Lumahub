@@ -107,7 +107,6 @@ local function FindNearestCoin(Radius)
 	local CoinContainer = FindCoinContainer()
 
 	if not CoinContainer then
-		print("CoinContainer not found")
 		return nil
 	end
 
