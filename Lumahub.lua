@@ -53,6 +53,9 @@ local IsAutoFarming = false
 local Player = Players.LocalPlayer
 local Character = Player.Character or Player.CharacterAdded:Wait()
 
+-- Connections
+local HeartbeatConnection
+
 --------------------------------------------------------------------------------------------
 --[[
 $$$$$$$$\ $$\   $$\ $$\   $$\  $$$$$$\ $$$$$$$$\ $$$$$$\  $$$$$$\  $$\   $$\  $$$$$$\  
@@ -69,6 +72,11 @@ $$ |      \$$$$$$  |$$ | \$$ |\$$$$$$  |  $$ |   $$$$$$\  $$$$$$  |$$ | \$$ |\$$
 local function Destroy()
 	AutoFarmEnabled = false
 	IsAutoFarming = false
+
+	if HeartbeatConnection then
+		HeartbeatConnection:Disconnect()
+		HeartbeatConnection = nil
+	end
 end
 
 local function Notify(Title, Content, Duration, Icon)
@@ -236,7 +244,7 @@ FarmingToggle:SetDesc("collect candy currency automatically.")
 
 FarmingSection:Select()
 
-RunService.Heartbeat:Connect(function()
+HeartbeatConnection = RunService.Heartbeat:Connect(function()
 	if AutoFarmEnabled and Character and Character:FindFirstChild("HumanoidRootPart") then
 		TeleportToNearbyOrRandomCoin()
 	end
