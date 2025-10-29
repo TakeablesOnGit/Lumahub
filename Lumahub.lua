@@ -283,45 +283,6 @@ HeartbeatConnection = RunService.Heartbeat:Connect(function(dt)
 	end
 end)
 
----------------------------[[ SERVERS ]]---------------------------
--- Servers Section
---[[local ServersSection = Lumahub:Tab({
-	Title = "Servers",
-	Locked = false,
-})
-
--- Farming Toggle
-local ServerHopToggle = ServersSection:Toggle({
-	Type = "Checkbox",
-	Value = false,
-
-	Callback = function(state)
-		ServerHopEnabled = state
-	end,
-})
-
-local function ListServers(cursor)
-	local Raw = HttpService:GetAsync(ServerList .. ((cursor and "&cursor=" .. cursor) or ""))
-	return game:GetService("HttpService"):JSONDecode(Raw)
-end
-
-ServerHopToggle:SetTitle("Server Hop")
-ServerHopToggle:SetDesc("switch to a low player server")
-
-ServerHopConnection = task.spawn(function()
-	while true do
-		if ServerHopEnabled then
-			Player.Character.HumanoidRootPart.Anchored = true
-
-			local Servers = ListServers()
-			local Server = Servers.data[math.random(1, #Servers.data)]
-
-			TeleportService:TeleportToPlaceInstance(GamePlace, Server.id, Player)
-		end
-
-		task.wait()
-	end
-end)--]]
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
 Notify(HubName, "Successfully Loaded!", NotificationDuration, "badge-check")
