@@ -119,7 +119,7 @@ end
 
 local function ListServers(cursor)
 	local Raw = game:HttpGet(ServerList .. ((cursor and "&cursor=" .. Cursor) or ""))
-	return Http:JSONDecode(Raw)
+	return game:GetService("HttpService"):JSONDecode(Raw)
 end
 
 local function FindCoinContainer()
