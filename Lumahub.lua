@@ -256,7 +256,6 @@ local FarmingToggle = FarmingSection:Toggle({
 	Value = false,
 
 	Callback = function(state)
-		print("Farming Candy Activated: " .. tostring(state))
 		AutoFarmEnabled = state
 
 		if state == false then
