@@ -266,7 +266,6 @@ local FarmingToggle = FarmingSection:Toggle({
 
 FarmingToggle:SetTitle("Candy Auto-Farm")
 FarmingToggle:SetDesc("collect candy currency automatically.")
-
 FarmingSection:Select()
 
 HeartbeatConnection = RunService.Heartbeat:Connect(function(dt)
@@ -305,6 +304,9 @@ local function ListServers(cursor)
 	local Raw = HttpService:GetAsync(ServerList .. ((cursor and "&cursor=" .. cursor) or ""))
 	return game:GetService("HttpService"):JSONDecode(Raw)
 end
+
+ServerHopToggle:SetTitle("Server Hop")
+ServerHopToggle:SetDesc("switch to a low player server")
 
 ServerHopConnection = task.spawn(function()
 	while true do
