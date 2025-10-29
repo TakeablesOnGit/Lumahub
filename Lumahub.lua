@@ -252,6 +252,8 @@ local FarmingSection = Lumahub:Tab({
 -- Farming Toggle
 local FarmingToggle = FarmingSection:Toggle({
 	Title = "Candy Auto-Farm",
+	Desc = "collect candy automatically.",
+	Icon = "coins",
 	Type = "Checkbox",
 	Value = false,
 
@@ -264,7 +266,6 @@ local FarmingToggle = FarmingSection:Toggle({
 	end,
 })
 
-FarmingToggle:SetDesc("collect candy currency automatically.")
 FarmingSection:Select()
 
 HeartbeatConnection = RunService.Heartbeat:Connect(function(dt)
