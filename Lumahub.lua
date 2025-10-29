@@ -246,6 +246,7 @@ local Lumahub = UI_Framework:CreateWindow({
 -- Farming Section
 local FarmingSection = Lumahub:Tab({
 	Title = "Farming",
+	Icon = "coins",
 	Locked = false,
 })
 
@@ -253,7 +254,6 @@ local FarmingSection = Lumahub:Tab({
 local FarmingToggle = FarmingSection:Toggle({
 	Title = "Candy Auto-Farm",
 	Desc = "collect candy automatically.",
-	Icon = "coins",
 	Type = "Checkbox",
 	Value = false,
 
