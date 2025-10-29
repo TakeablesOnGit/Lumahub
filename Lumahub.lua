@@ -23,6 +23,9 @@ local NotificationIcon = "bell-ring"
 local NearbyRadius = 50
 local MaxSafeSpeed = 15
 
+-- Player Modifiers Settings
+local GhostEnabled = false
+
 --------------------------------------------------------------------------------------------
 --[[
 $$\    $$\  $$$$$$\  $$$$$$$\  $$$$$$\  $$$$$$\  $$$$$$$\  $$\       $$$$$$$$\  $$$$$$\  
@@ -155,7 +158,7 @@ local function TeleportToCoin(Coin, Speed)
 	print("Tweening To Coin In Exactly " .. tostring(Speed) .. " Seconds")
 
 	local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
-	local TweenConfig = TweenInfo.new(Speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	local TweenConfig = TweenInfo.new(Speed, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
 	local Tween = TweenService:Create(HumanoidRootPart, TweenConfig, { CFrame = Coin.CFrame })
 
 	Tween:Play()
