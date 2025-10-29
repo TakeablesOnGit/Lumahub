@@ -53,12 +53,9 @@ local UI_Framework =
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
-local TeleportService = game:GetService("TeleportService")
-local HttpService = game:GetService("HttpService")
 
 -- Private Values
 local AutoFarmEnabled = false
-local ServerHopEnabled = false
 local IsAutoFarming = false
 local LastTweenTime = 0
 
@@ -68,7 +65,6 @@ local Character = Player.Character or Player.CharacterAdded:Wait()
 
 -- Connections
 local HeartbeatConnection
-local ServerHopConnection
 
 --------------------------------------------------------------------------------------------
 --[[
@@ -243,14 +239,12 @@ local Lumahub = UI_Framework:CreateWindow({
 })
 
 ---------------------------[[ AUTO FARMING ]]---------------------------
--- Farming Section
 local FarmingSection = Lumahub:Tab({
 	Title = "Farming",
 	Icon = "coins",
 	Locked = false,
 })
 
--- Farming Toggle
 local FarmingToggle = FarmingSection:Toggle({
 	Title = "Candy Auto-Farm",
 	Desc = "collect candy automatically.",
@@ -282,6 +276,40 @@ HeartbeatConnection = RunService.Heartbeat:Connect(function(dt)
 		end)()
 	end
 end)
+
+---------------------------[[ PLAYER ]]---------------------------
+local NoClipEnabled = false
+
+local PlayerSection = Lumahub:Tab({
+	Title = "Player",
+	Icon = "user-round-pen",
+	Locked = false,
+})
+
+local NoClipToggle = PlayerSection:Toggle({
+	Title = "No Clip",
+	Desc = "Make your character able to walk through walls.",
+	Type = "Checkbox",
+	Value = false,
+
+	Callback = function(state)
+		NoClipEnabled = state
+	end,
+})
+
+local function NoClip()
+	while NoClipEnabled do
+		for _, Part in ipairs(Character:GetDescendants()) do
+			if Part:IsA("BasePart") and Part.CanCollide then
+				Part.CanCollide = false
+			end
+		end
+
+		task.wait(0.1)
+	end
+end
+
+coroutine.wrap(NoClip)()
 
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
