@@ -54,6 +54,7 @@ local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
 
 -- Private Values
 local AutoFarmEnabled = false
@@ -115,11 +116,6 @@ local function Notify(Title, Content, Duration, Icon)
 		Duration = Duration,
 		Icon = Icon,
 	})
-end
-
-local function ListServers(cursor)
-	local Raw = game:HttpGet(ServerList .. ((cursor and "&cursor=" .. Cursor) or ""))
-	return game:GetService("HttpService"):JSONDecode(Raw)
 end
 
 local function FindCoinContainer()
@@ -290,7 +286,7 @@ end)
 
 ---------------------------[[ SERVERS ]]---------------------------
 -- Servers Section
-local ServersSection = Lumahub:Tab({
+--[[local ServersSection = Lumahub:Tab({
 	Title = "Servers",
 	Locked = false,
 })
@@ -305,6 +301,11 @@ local ServerHopToggle = ServersSection:Toggle({
 	end,
 })
 
+local function ListServers(cursor)
+	local Raw = HttpService:GetAsync(ServerList .. ((cursor and "&cursor=" .. cursor) or ""))
+	return game:GetService("HttpService"):JSONDecode(Raw)
+end
+
 ServerHopConnection = task.spawn(function()
 	while true do
 		if ServerHopEnabled then
@@ -318,7 +319,7 @@ ServerHopConnection = task.spawn(function()
 
 		task.wait()
 	end
-end)
+end)--]]
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
 Notify(HubName, "Successfully Loaded!", NotificationDuration, "badge-check")
