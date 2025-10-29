@@ -23,8 +23,14 @@ local NotificationIcon = "bell-ring"
 local NearbyRadius = 50
 local MaxSafeSpeed = 15
 
--- Player Modifiers Settings
-local GhostEnabled = false
+-- Server Hop Settings
+local GamesAPI = "https://games.roblox.com/v1/games/"
+local GamePlace, GameID = game.PlaceId, game.JobId
+local ServerList = GamesAPI .. GamePlace .. "/servers/Public?"
+local DefaultServerHopWaitTime = 120
+
+-- Auto Farm Settings
+local MinInterval = 0.2
 
 --------------------------------------------------------------------------------------------
 --[[
@@ -47,12 +53,13 @@ local UI_Framework =
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
+local TeleportService = game:GetService("TeleportService")
 
 -- Private Values
 local AutoFarmEnabled = false
+local ServerHopEnabled = false
 local IsAutoFarming = false
 local LastTweenTime = 0
-local MinInterval = 0.2
 
 -- Instance References
 local Player = Players.LocalPlayer
@@ -60,6 +67,7 @@ local Character = Player.Character or Player.CharacterAdded:Wait()
 
 -- Connections
 local HeartbeatConnection
+local ServerHopConnection
 
 --------------------------------------------------------------------------------------------
 --[[
@@ -107,6 +115,11 @@ local function Notify(Title, Content, Duration, Icon)
 		Duration = Duration,
 		Icon = Icon,
 	})
+end
+
+local function ListServers(cursor)
+	local Raw = game:HttpGet(ServerList .. ((cursor and "&cursor=" .. Cursor) or ""))
+	return Http:JSONDecode(Raw)
 end
 
 local function FindCoinContainer()
@@ -233,7 +246,7 @@ local Lumahub = UI_Framework:CreateWindow({
 	Folder = HubName,
 })
 
----------------------------[[ FARMING ]]---------------------------
+---------------------------[[ AUTO FARMING ]]---------------------------
 -- Farming Section
 local FarmingSection = Lumahub:Tab({
 	Title = "Farming",
@@ -275,6 +288,37 @@ HeartbeatConnection = RunService.Heartbeat:Connect(function(dt)
 	end
 end)
 
+---------------------------[[ SERVERS ]]---------------------------
+-- Servers Section
+local ServersSection = Lumahub:Tab({
+	Title = "Servers",
+	Locked = false,
+})
+
+-- Farming Toggle
+local ServerHopToggle = ServersSection:Toggle({
+	Type = "Checkbox",
+	Value = false,
+
+	Callback = function(state)
+		ServerHopEnabled = state
+	end,
+})
+
+ServerHopConnection = task.spawn(function()
+	while true do
+		if ServerHopEnabled then
+			Player.Character.HumanoidRootPart.Anchored = true
+
+			local Servers = ListServers()
+			local Server = Servers.data[math.random(1, #Servers.data)]
+
+			TeleportService:TeleportToPlaceInstance(GamePlace, Server.id, Player)
+		end
+
+		task.wait()
+	end
+end)
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
 Notify(HubName, "Successfully Loaded!", NotificationDuration, "badge-check")
