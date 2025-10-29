@@ -251,6 +251,7 @@ local FarmingSection = Lumahub:Tab({
 
 -- Farming Toggle
 local FarmingToggle = FarmingSection:Toggle({
+	Title = "Candy Auto-Farm",
 	Type = "Checkbox",
 	Value = false,
 
@@ -264,7 +265,6 @@ local FarmingToggle = FarmingSection:Toggle({
 	end,
 })
 
-FarmingToggle:SetTitle("Candy Auto-Farm")
 FarmingToggle:SetDesc("collect candy currency automatically.")
 FarmingSection:Select()
 
