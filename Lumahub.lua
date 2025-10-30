@@ -58,10 +58,18 @@ local RunService = game:GetService("RunService")
 local AutoFarmEnabled = false
 local IsAutoFarming = false
 local LastTweenTime = 0
+local CurrentCoins = 0
 
 -- Instance References
 local Player = Players.LocalPlayer
 local Character = Player.Character or Player.CharacterAdded:Wait()
+
+local Remotes = game.ReplicatedStorage.Remotes
+local GameplayRemotes = Remotes.Gameplay
+
+local CoinCollectedRemote = GameplayRemotes.CoinCollected
+local RoundStartRemote = GameplayRemotes.RoundStart
+local RoundEndFadeRemote = GameplayRemotes.RoundEndFade
 
 -- Connections
 local HeartbeatConnection
@@ -82,6 +90,8 @@ $$ |      \$$$$$$  |$$ | \$$ |\$$$$$$  |  $$ |   $$$$$$\  $$$$$$  |$$ | \$$ |\$$
 local function Destroy()
 	AutoFarmEnabled = false
 	IsAutoFarming = false
+	
+	CurrentCoins = 0
 
 	if HeartbeatConnection then
 		HeartbeatConnection:Disconnect()
@@ -278,7 +288,6 @@ HeartbeatConnection = RunService.Heartbeat:Connect(function(dt)
 end)
 
 ---------------------------[[ PLAYER ]]---------------------------
-local NoClipEnabled = false
 
 local PlayerSection = Lumahub:Tab({
 	Title = "Player",
@@ -288,28 +297,33 @@ local PlayerSection = Lumahub:Tab({
 
 local NoClipToggle = PlayerSection:Toggle({
 	Title = "No Clip",
-	Desc = "Make your character able to walk through walls.",
+	Desc = "Coming Soon",
 	Type = "Checkbox",
 	Value = false,
 
 	Callback = function(state)
-		NoClipEnabled = state
-	end,
+		
+	end
 })
 
-local function NoClip()
-	while NoClipEnabled == true do
-		for _, Part in pairs(Player.Character:GetDescendants()) do
-			if Part:IsA("BasePart") and Part.CanCollide then
-				Part.CanCollide = false
-			end
-		end
+---------------------------[[ REMOTE HANDLING ]]---------------------------
 
-		task.wait(0.1)
+CoinCollectedRemote.OnClientEvent:Connect(function(CoionType, Current, Max)
+	if tonumber(Current) == tonumber(Max) then
+		AutoFarmEnabled = false
+		IsAutoFarming = false
+		Player.Character.Humanoid.Health = 0
 	end
-end
+end)
 
-coroutine.wrap(NoClip)()
+RoundEndFadeRemote.OnClientEvent:Connect(function()
+	AutoFarmEnabled = false
+	IsAutoFarming = false
+end)
+
+RoundStartRemote.OnClientEvent:Connect(function()
+	IsAutoFarming = true
+end)
 
 ---------------------------[[ NOTIFY ON LOAD ]]---------------------------
 
