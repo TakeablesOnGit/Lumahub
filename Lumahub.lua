@@ -299,10 +299,23 @@ local NoClipToggle = PlayerSection:Toggle({
 	Title = "No Clip",
 	Desc = "Coming Soon",
 	Type = "Checkbox",
-	Value = true,
+	Locked = true,
+	Value = false,
 
 	Callback = function(state)
 		
+	end
+})
+
+local InvisiblityToggle = PlayerSection:Toggle({
+	Title = "Invisiblity",
+	Desc = "Coming Soon",
+	Type = "Checkbox",
+	Locked = true,
+	Value = false,
+
+	Callback = function(state)
+
 	end
 })
 
