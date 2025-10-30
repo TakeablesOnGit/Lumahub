@@ -298,8 +298,8 @@ local NoClipToggle = PlayerSection:Toggle({
 })
 
 local function NoClip()
-	while NoClipEnabled do
-		for _, Part in pairs(Character:GetDescendants()) do
+	while NoClipEnabled == true do
+		for _, Part in pairs(Player.Character:GetDescendants()) do
 			if Part:IsA("BasePart") and Part.CanCollide then
 				Part.CanCollide = false
 			end
