@@ -257,7 +257,7 @@ local FarmingSection = Lumahub:Tab({
 
 local FarmingToggle = FarmingSection:Toggle({
 	Title = "Candy Auto-Farm",
-	Desc = "collect candy automatically.",
+	Desc = "Collect Candy Automatically.",
 	Type = "Checkbox",
 	Value = false,
 
@@ -299,16 +299,34 @@ local NoClipToggle = PlayerSection:Toggle({
 	Title = "No Clip",
 	Desc = "Coming Soon",
 	Type = "Checkbox",
-	Value = false,
+	Value = true,
 
 	Callback = function(state)
 		
 	end
 })
 
+---------------------------[[ SERVERS ]]---------------------------
+
+local ServersSection = Lumahub:Tab({
+	Title = "Servers",
+	Icon = "list-end",
+	Locked = false,
+})
+
+local ServerHopButton = ServersSection:Button({
+	Title = "Server Hop",
+	Desc = "Coming Soon",
+	Locked = true,
+	
+	Callback = function()
+		
+	end
+})
+
 ---------------------------[[ REMOTE HANDLING ]]---------------------------
 
-CoinCollectedRemote.OnClientEvent:Connect(function(CoionType, Current, Max)
+CoinCollectedRemote.OnClientEvent:Connect(function(CoinType, Current, Max)
 	if tonumber(Current) == tonumber(Max) then
 		AutoFarmEnabled = false
 		IsAutoFarming = false
